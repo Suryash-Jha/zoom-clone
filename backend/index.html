@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Call APP</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        body{
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f1f1f1;
         }
-        h1{
+
+        h1 {
             color: #333;
+        }
+
+        suryash {
+            background-color: #ff0000;
         }
     </style>
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 
 </head>
-<body >
+
+<body>
     <h1> Video Call APP</h1>
+    <input type="text" id="msgBox" onchange=""> </input>
+
+    <button onclick=handleMessage()> Send Message </button>
+
 </body>
 <script>
     const socket = io();
-  </script>
+    const handleMessage = () => {
+        const messageContent = document.getElementById('msgBox').value;
+        // console.log(messageContent)
+        socket.emit('message', String(messageContent))
+    }
+
+    socket.on('message', (msg)=>{
+        console.log("Message from server", msg)
+    })
+</script>
+
 </html>
