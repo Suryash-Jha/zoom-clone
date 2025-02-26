@@ -22,9 +22,11 @@
             font-family: Arial, sans-serif;
             background-color: #f1f1f1;
         }
-
-        h1 {
-            color: #333;
+        .sent{
+            color: #ff0000
+        }
+        .recieved{
+            color: #00ff00
         }
 
         suryash {
@@ -36,22 +38,36 @@
 </head>
 
 <body>
-    <h1> Video Call APP</h1>
+    <h1 color= "#333"> Video Call APP</h1>
+    <div id="chatList" >
+
+    </div>
     <input type="text" id="msgBox" onchange=""> </input>
 
     <button onclick=handleMessage()> Send Message </button>
+
+
 
 </body>
 <script>
     const socket = io();
     const handleMessage = () => {
         const messageContent = document.getElementById('msgBox').value;
+        const chatListBox = document.getElementById('chatList');
+        const textNode= document.createElement('div')
+        textNode.innerHTML= `<h1 class="sent">${messageContent}</h1>`
+        chatListBox.appendChild(textNode)
         // console.log(messageContent)
         socket.emit('message', String(messageContent))
     }
 
     socket.on('message', (msg)=>{
         console.log("Message from server", msg)
+        const chatListBox = document.getElementById('chatList');
+        const textNode= document.createElement('div')
+        textNode.innerHTML=  `<h1 class="recieved">${msg}</h1>`
+        chatListBox.appendChild(textNode)
+
     })
 </script>
 
