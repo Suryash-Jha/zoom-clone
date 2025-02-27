@@ -26,7 +26,7 @@ app.get('/generate-id', (req, res)=>{
   })
 })
 
-
+let c= 0;
 
 io.on('connection', (socket)=>{
     console.log('connected!!!')
@@ -37,9 +37,13 @@ io.on('connection', (socket)=>{
     socket.on('join-room', (roomId) => {
         console.log('Room Joined: ', roomId);
         socket.join(roomId)
+        c+= 1;
+        socket.to('mainPage').emit('count', 'Count is :'+ c)
       });
     socket.on('disconnect', () => {
         console.log('user disconnected');
+        // c-= 1;
+        // socket.to('mainPage').emit('count', 'Count is :'+ c)
       });
 })
 

@@ -11,6 +11,7 @@
     <h1> Welcome to Chat!</h1>
     <p id="roomId"></p>
     <div class="chatList"></div>
+    <p id="count"></p>
     <button onClick="sendLink()">Click Me</button>
 </body>
 <script>
@@ -31,6 +32,10 @@ const fetchRoomId= ()=>{
     socket.emit('join-room', roomId)
 }
 fetchRoomId()
+socket.on('count', (msg)=>{
+    const node= document.getElementById('count')
+    node.innerHTML= msg
+})
 socket.on('message', (msg)=>{
         console.log("Message from server", msg)
         const chatListBox = document.getElementById('chatList');
