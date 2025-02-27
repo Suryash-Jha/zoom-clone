@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Pane</title>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+</head>
+<body>
+    <h1> Welcome to Chat!</h1>
+    <p id="roomId"></p>
+    <div class="chatList"></div>
+    <button onClick="sendLink()">Click Me</button>
+</body>
+<script>
+
+const socket = io();
+const sendLink= ()=>{
+    const url= window.location.href.split('/')
+    const roomId= url.pop()
+    console.log('url', roomId)
+    document.getElementById('roomId').innerText= 'Room id is: '+ roomId
+    socket.emit('message', "room joined: "+roomId, roomId)
+}
+const fetchRoomId= ()=>{
+    const url= window.location.href.split('/')
+    const roomId= url.pop()
+    console.log('url', roomId)
+    document.getElementById('roomId').innerText= 'Room id is: '+ roomId
+    socket.emit('join-room', roomId)
+}
+fetchRoomId()
+socket.on('message', (msg)=>{
+        console.log("Message from server", msg)
+        const chatListBox = document.getElementById('chatList');
+        const textNode= document.createElement('div')
+        textNode.innerHTML=  `<h1 class="recieved">${msg}</h1>`
+        chatListBox.appendChild(textNode)
+
+    })
+</script>
+</html>

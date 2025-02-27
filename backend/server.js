@@ -5,6 +5,7 @@ const {Server} = require('socket.io')
 const app = express();
 const server = createServer(app);
 const io= new Server(server)
+const { v4: uuidv4 } = require('uuid');
 
 // app.get('/', (req, res) => {
 //   res.send('<h1>Hello world</h1>');
@@ -13,13 +14,30 @@ const io= new Server(server)
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
+app.get('/chatView/:id', (req, res) => {
+  res.sendFile(join(__dirname, 'chat.html'));
+});
+
+app.get('/generate-id', (req, res)=>{
+  const id= uuidv4()
+  console.log(id)
+  res.send({
+    id
+  })
+})
+
+
 
 io.on('connection', (socket)=>{
     console.log('connected!!!')
-    socket.on('message', (msg)=>{
+    socket.on('message', (msg, roomId)=>{
         console.log("Message recieved from client->", msg)
-        socket.broadcast.emit('message', msg)
+        socket.broadcast.to(roomId).emit('message', msg)
     })
+    socket.on('join-room', (roomId) => {
+        console.log('Room Joined: ', roomId);
+        socket.join(roomId)
+      });
     socket.on('disconnect', () => {
         console.log('user disconnected');
       });

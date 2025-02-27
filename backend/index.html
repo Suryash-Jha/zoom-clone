@@ -39,18 +39,23 @@
 
 <body>
     <h1 color= "#333"> Video Call APP</h1>
-    <div id="chatList" >
-
-    </div>
+    <div id="chatList"></div>
     <input type="text" id="msgBox" onchange=""> </input>
 
-    <button onclick=handleMessage()> Send Message </button>
+    <button onclick=redirectToChat()> Join Random Chat </button>
 
 
 
 </body>
 <script>
+
     const socket = io();
+    const redirectToChat= ()=>{
+        fetch('/generate-id').then((res)=> res.json()).then((data)=> {
+            window.location.href= '/chatView/'+data.id
+    })
+        
+    }
     const handleMessage = () => {
         const messageContent = document.getElementById('msgBox').value;
         const chatListBox = document.getElementById('chatList');
@@ -69,6 +74,8 @@
         chatListBox.appendChild(textNode)
 
     })
+
+
 </script>
 
 </html>
