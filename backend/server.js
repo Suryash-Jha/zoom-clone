@@ -4,35 +4,21 @@ const { join } = require('node:path');
 const {Server} = require('socket.io')
 const app = express();
 const server = createServer(app);
-const io= new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:3000"]
+  }
+});
+
 const { v4: uuidv4 } = require('uuid');
-
-// app.get('/', (req, res) => {
-//   res.send('<h1>Hello world</h1>');
-// });
-// For rendering static HTML file
-app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'));
-});
-app.get('/chatView/:id', (req, res) => {
-  res.sendFile(join(__dirname, 'chat.html'));
-});
-
-app.get('/generate-id', (req, res)=>{
-  const id= uuidv4()
-  console.log(id)
-  res.send({
-    id
-  })
-})
 
 let c= 0;
 
 io.on('connection', (socket)=>{
-    console.log('connected!!!')
-    socket.on('message', (msg, roomId)=>{
+    // socket.broadcast.emit('messageIn', 'Connected by socket port 3001'+socket.id, )
+    socket.on('message', (msg)=>{
         console.log("Message recieved from client->", msg)
-        socket.broadcast.to(roomId).emit('message', msg)
+        socket.broadcast.emit('message', msg)
     })
     socket.on('join-room', (roomId) => {
         console.log('Room Joined: ', roomId);
@@ -42,8 +28,6 @@ io.on('connection', (socket)=>{
       });
     socket.on('disconnect', () => {
         console.log('user disconnected');
-        // c-= 1;
-        // socket.to('mainPage').emit('count', 'Count is :'+ c)
       });
 })
 
