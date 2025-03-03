@@ -10,15 +10,13 @@ const io = new Server(server, {
   }
 });
 
-const { v4: uuidv4 } = require('uuid');
 
-let c= 0;
 
 io.on('connection', (socket)=>{
     // socket.broadcast.emit('messageIn', 'Connected by socket port 3001'+socket.id, )
-    socket.on('message', (msg)=>{
+    socket.on('message', (msg, room)=>{
         console.log("Message recieved from client->", msg)
-        socket.broadcast.emit('message', msg)
+        socket.broadcast.to(room).emit('message', msg)
     })
     socket.on('join-room', (roomId) => {
       console.log(socket, '---+_+_+_+')

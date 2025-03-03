@@ -12,7 +12,11 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -35,4 +39,49 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.mainContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.chatContainer{
+  height: 80vh;
+  width: 90vw;
+  padding: 10px;
+  margin: 2%;
+  background-color: aliceblue;
+  border: 5px solid black;
+  overflow: scroll;
+  max-height: 80vh;
+
+}
+.chatContainer p{
+  border: 1px solid black;
+  padding: 3px;
+  margin: 2px 0px;
+  font-size: 1.5rem;
+}
+.msgInputContainer, .roomChangeContainer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+input{
+  margin: 2px;
+  height: 5vh;
+  width: 80vw;
+  border: 3px solid black;
+  font-size: 3vh;
+  padding: 5px;
+
+}
+button{
+  margin: 2px;
+  height: 5vh;
+  width: 10vw;
+  border: 3px solid black;
+
 }
