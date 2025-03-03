@@ -21,10 +21,10 @@ io.on('connection', (socket)=>{
         socket.broadcast.emit('message', msg)
     })
     socket.on('join-room', (roomId) => {
-        console.log('Room Joined: ', roomId);
+      console.log(socket, '---+_+_+_+')
+        console.log('Room Joined: ', roomId, socket.rooms);
         socket.join(roomId)
-        c+= 1;
-        socket.to('mainPage').emit('count', 'Count is :'+ c)
+      
       });
     socket.on('disconnect', () => {
         console.log('user disconnected');
